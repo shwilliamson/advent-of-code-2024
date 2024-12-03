@@ -46,7 +46,7 @@ def is_safe(levels: List[int], anomaly_count: int = 0) -> bool:
 
 def main():
     safe_count = 0
-    with open('resources/day2.txt', 'r') as file:
+    with open('resources/day02.txt', 'r') as file:
         for line in file:
             levels = [int(level) for level in line.split(" ")]
             if is_safe(levels=levels):
