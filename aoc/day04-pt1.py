@@ -1,4 +1,4 @@
-from typing import Callable, Tuple
+from typing import Callable, Tuple, Optional
 
 XMAS = 'XMAS'
 
@@ -14,9 +14,9 @@ directions = [
 ]
 
 
-def next_symbol(symbol: str) -> str:
+def next_symbol(symbol: str) -> Optional[str]:
     idx = XMAS.find(symbol) + 1
-    return XMAS[idx] if idx < len(XMAS) else 'END'
+    return XMAS[idx] if idx < len(XMAS) else None
 
 
 def follow_direction(direction: Callable[[int, int], Tuple[int, int]], matrix: [str], i: int, j: int, symbol: str) -> int:
@@ -28,7 +28,7 @@ def follow_direction(direction: Callable[[int, int], Tuple[int, int]], matrix: [
     if matrix[ii][jj] != symbol:
         return 0
     next_sym = next_symbol(symbol)
-    if next_sym == 'END':
+    if next_sym is None:
         return 1
     return follow_direction(direction, matrix, ii, jj, next_sym)
 
