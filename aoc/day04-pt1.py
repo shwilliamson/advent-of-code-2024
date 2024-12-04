@@ -2,7 +2,7 @@ from typing import Callable, Tuple, Optional
 
 XMAS = 'XMAS'
 
-directions = [
+movements = [
     lambda i, j: (i + 1, j), # North
     lambda i, j: (i - 1, j), # South
     lambda i, j: (i, j + 1), # East
@@ -19,8 +19,8 @@ def next_symbol(symbol: str) -> Optional[str]:
     return XMAS[idx] if idx < len(XMAS) else None
 
 
-def follow_direction(direction: Callable[[int, int], Tuple[int, int]], matrix: [str], i: int, j: int, symbol: str) -> int:
-    ii, jj = direction(i, j)
+def follow_direction(move: Callable[[int, int], Tuple[int, int]], matrix: [str], i: int, j: int, symbol: str) -> int:
+    ii, jj = move(i, j)
     if ii not in range(len(matrix)):
         return 0
     if jj not in range(len(matrix[ii])):
@@ -30,13 +30,13 @@ def follow_direction(direction: Callable[[int, int], Tuple[int, int]], matrix: [
     next_sym = next_symbol(symbol)
     if next_sym is None:
         return 1
-    return follow_direction(direction, matrix, ii, jj, next_sym)
+    return follow_direction(move, matrix, ii, jj, next_sym)
 
 
 def xmas_count(matrix: [str], i: int, j: int,) -> int:
     if matrix[i][j] != 'X':
         return 0
-    return sum([follow_direction(direction, matrix, i, j, 'M') for direction in directions])
+    return sum([follow_direction(move, matrix, i, j, 'M') for move in movements])
 
 
 def main():
