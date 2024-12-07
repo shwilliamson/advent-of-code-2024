@@ -4,6 +4,7 @@ from typing import Callable
 operators = [
     lambda a, b: a + b,
     lambda a, b: a * b,
+    lambda a, b: int(f"{a}{b}") # comment out for pt 1
 ]
 
 def evaluate(operands: [int], ops:[Callable[[int,int],int]]) -> int:
