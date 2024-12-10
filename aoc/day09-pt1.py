@@ -1,7 +1,5 @@
 
-
 def main():
-
     with open('resources/day09.txt', 'r') as file:
         for line in file:
             line = line.strip()
