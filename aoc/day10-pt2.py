@@ -1,4 +1,4 @@
-from typing import Tuple, Set
+from typing import Tuple, Set, List
 
 matrix = []
 
@@ -9,7 +9,7 @@ movements = [
     lambda i, j: (i, j - 1)
 ]
 
-def walk_trails(position: Tuple[int, int], breadcrumbs: [Tuple[int,int]]) -> Set[Tuple[int,int]]:
+def walk_trails(position: Tuple[int, int], breadcrumbs: List[Tuple[int,int]]) -> Set[Tuple[Tuple[int,int],...]]:
     trail = breadcrumbs + [position]
     (i, j) = position
     if i not in range(len(matrix)):
@@ -22,7 +22,7 @@ def walk_trails(position: Tuple[int, int], breadcrumbs: [Tuple[int,int]]) -> Set
         return set()
     if elevation == 9:
         print(f"Found valid trail: {[trail]}")
-        return {position}
+        return {tuple(trail)}
 
     all_trail_peaks = [ walk_trails(position=move(i, j), breadcrumbs=trail) for move in movements ]
     return set().union(*all_trail_peaks)
@@ -38,7 +38,7 @@ def main():
         for j in range(len(matrix[i])):
             if matrix[i][j] == 0:
                 trails = walk_trails(position=(i, j), breadcrumbs=[])
-                print(f"Trail head {(i,j)} reaches {len(trails)} distinct peaks")
+                print(f"Trail head {(i,j)} has {len(trails)} distinct trails")
                 trail_score_sum += len(trails)
 
     print(f"answer is {trail_score_sum}")
