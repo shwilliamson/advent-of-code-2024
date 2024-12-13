@@ -1,1 +1,4 @@
-print(sum([[1], [2]], []))
+
+
+for x in range(100):
+    print(x * 2024)
