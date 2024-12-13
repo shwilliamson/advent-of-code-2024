@@ -1,4 +1,3 @@
-import itertools
 from dataclasses import dataclass
 from typing import Dict
 
@@ -17,7 +16,6 @@ def group(stones: [Stone]) -> [Stone]:
         else:
             stone_map[stone.val].multiple += stone.multiple
     result = list(stone_map.values())
-    print(f"before: {len(stones)} after: {len(result)}")
     return result
 
 
