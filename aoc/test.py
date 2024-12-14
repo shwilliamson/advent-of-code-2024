@@ -1,4 +1,3 @@
 
 
-for x in range(100):
-    print(x * 2024)
+print((2.2 * 100) % 100)
