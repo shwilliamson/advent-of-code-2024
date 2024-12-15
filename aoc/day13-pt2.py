@@ -6,8 +6,9 @@ from numpy.linalg import inv
 
 
 def to_positive_whole(x: float) -> Optional[int]:
-    # verify to 4 decimal places
-    x = round(x, 4)
+    # verify to 3 decimal places (precision matters here)
+    # I get the same answer at 2 and 3 which agrees with AoC
+    x = round(x, 3)
     return int(x) if x > 0 and float(int(x)) == x else None
 
 
