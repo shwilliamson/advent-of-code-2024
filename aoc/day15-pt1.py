@@ -47,14 +47,13 @@ class Warehouse:
         result_sum = 0
         for b in self.boxes:
             result_sum += (100 * b[0]) + b[1]
-        return result_sum - 100 * len(self.boxes)
+        return result_sum
 
     def parse(self):
         with open('resources/day15.txt', 'r') as file:
-            i = 0
-            for line in file:
-                i += 1
-                for j, c in enumerate(line.strip()):
+            lines = [line.strip() for line in file]
+            for i, line in enumerate(lines):
+                for j, c in enumerate(line):
                     if c == '@':
                         self.robot = (i, j)
                     elif c == '#':
