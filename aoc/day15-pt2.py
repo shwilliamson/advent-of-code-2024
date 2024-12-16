@@ -77,6 +77,28 @@ class Warehouse:
         else:
             self.robot = next_pos
 
+    def print_map(self):
+        for i in range(50):
+            line = ""
+            for j in range(100):
+                c = ""
+                if (i, j) in self.walls:
+                    c = "#"
+                    line += c
+                if Box((i,j), (i,j+1)) in self.boxes:
+                    c = "["
+                    line += c
+                if Box((i,j-1), (i,j)) in self.boxes:
+                    c = "]"
+                    line += c
+                if self.robot == (i,j):
+                    c = "@"
+                    line += c
+                if len(c) == 0:
+                    line += "."
+            print(line)
+        print()
+
     def execute(self):
         for i, m in enumerate(self.movements):
             self.move_robot(m)
@@ -117,4 +139,5 @@ if __name__ == '__main__':
     w = Warehouse()
     w.parse()
     w.execute()
-    print(w.compute_answer())
+    w.print_map()
+    print(f"Answer is {w.compute_answer()}")
