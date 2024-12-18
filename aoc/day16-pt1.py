@@ -1,5 +1,6 @@
+import sys
 from dataclasses import dataclass, field
-from typing import TypeAlias, Tuple, Set, List, Optional
+from typing import TypeAlias, Tuple, Set, List, Optional, Dict
 from enum import Enum
 
 Coordinate: TypeAlias = Tuple[int, int]
@@ -60,12 +61,18 @@ class Node:
 class Maze:
     walls: Set[Coordinate] = set()
     goal: Coordinate = (0, 0)
-    min_score: int = 99999999999999999999999
+    min_score: int = sys.maxsize
+    shortest_paths: Dict[Coordinate, int] = {}
     to_visit: List[Node] = []
 
     def walk_all_paths(self) -> int:
         while len(self.to_visit) > 0:
             node = self.to_visit.pop()
+            shortest_path = self.shortest_paths.get(node.position, sys.maxsize)
+            if node.score > shortest_path:
+                continue  # we've already found a shorter path here, this can't be optimal
+            else:
+                self.shortest_paths[node.position] = node.score
             for child in node.children():
                 if child.position == self.goal:
                     self.min_score = min(self.min_score, child.score)
