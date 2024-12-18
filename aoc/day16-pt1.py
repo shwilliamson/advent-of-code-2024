@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field
-import time
 from typing import TypeAlias, Tuple, Set, List, Optional
 from enum import Enum
 
@@ -26,37 +25,34 @@ class Node:
     position: Coordinate = (0, 0)
     dir: Direction = Direction.EAST
     score: int = 0
-    parent: Optional['Node'] = None
+    path_coordinates: Set[Coordinate] = field(default_factory=set)
 
     def has_cycle(self) -> bool:
-        parent = self.parent
-        while parent is not None:
-            if parent.position == self.position and parent.dir == self.dir:
-                return True
-            parent = parent.parent
-        return False
+        return self.position in self.path_coordinates
 
     def children(self) -> ['Node']:
         left_dir = Direction((self.dir.value - 1) % len(Direction))
         right_dir = Direction((self.dir.value + 1) % len(Direction))
+        new_path = self.path_coordinates.copy()
+        new_path.add(self.position)
         return [
             Node(
                 position=moves[self.dir](*self.position),
                 dir=self.dir,
                 score=(self.score + 1),
-                parent=self
+                path_coordinates=new_path
             ),
             Node(
                 position=moves[left_dir](*self.position),
                 dir=left_dir,
                 score=(self.score + 1001),
-                parent=self
+                path_coordinates=new_path
             ),
             Node(
                 position=moves[right_dir](*self.position),
                 dir=right_dir,
                 score=(self.score + 1001),
-                parent=self
+                path_coordinates=new_path
             )
         ]
 
@@ -73,6 +69,9 @@ class Maze:
             for child in node.children():
                 if child.position == self.goal:
                     self.min_score = min(self.min_score, child.score)
+                    print(f"Found path of length {len(child.path_coordinates) + 1} with score of {child.score}")
+                    print(f"Current stack size: {len(self.to_visit)}")
+                    print(f"Current min score: {self.min_score}")
                 elif child.score > self.min_score:
                     pass
                 elif child.position in self.walls:
